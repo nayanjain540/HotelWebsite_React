@@ -1,23 +1,24 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from './baseURL';
 
 
 function About(props) {
 
-   const RenderLeader=props.leaders.map((dishm)=>{
+   const RenderLeader=props.leaders.leaders.map((leader)=>{
               return(
                <div className="container">
                <div className="row">
                <div className="col-md-2">
-               <Media object src={dishm.image}  />
+               <Media object src={baseUrl+leader.image}  />
                 </div>
                 <div className="col-md-10">
-                <h4>{dishm.name}</h4>
-                <p>{dishm.designation}   
+                <h4>{leader.name}</h4>
+                <p>{leader.designation}   
                 <br/>
                 <br/>
-                {dishm.description}
+                {leader.description}
                 </p>
 
                 </div>

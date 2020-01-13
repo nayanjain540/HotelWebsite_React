@@ -1,58 +1,12 @@
 import React, { useState,Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody,CardTitle,Breadcrumb,BreadcrumbItem } from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter , Row, Col, Label } from 'reactstrap';
-import { Loading } from './LoadingComponent';
-import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
-import { baseUrl } from './baseURL';
 
-
-
+const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 
-function RenderComments({comments,postComment,dishID}){
-  if(comments!=null)
-    return(
-      <div>
-      <h4>Comments</h4>
-      <ul className="list-unstyled">
-      {comments.map((comment)=>{
-        return(
-        <li key={comment.id}>
-        <p>{comment.comment}</p> 
-        <p>--{comment.author} {comment.date} </p>
-        </li>
-        )
 
-      })}
-
-      </ul>
-      {console.log(dishID)}
-       <CommentForm dishID={dishID} postComment={postComment} />
-      
-      </div>
-
-      )
-}
-
-function Dish({dish}){
-  if(dish!=null){
-    return(
-    <div>
-   
-      <Card>
-            <CardImg top src={baseUrl + dish.image} alt={dish.name} />
-            <CardBody>
-            <CardTitle>{dish.name}</CardTitle>
-            <CardText>{dish.description}</CardText>
-            </CardBody>
-        </Card>              
-    </div>
-   
-    )
-  }
-}
 
 
 class CommentForm extends Component{
@@ -74,7 +28,9 @@ class CommentForm extends Component{
   handleSubmit(values) 
       {
             this.toggle();
-            this.props.postComment(this.props.dishID, values.rating, values.author, values.comment);
+            console.log('Current State is: ' + JSON.stringify(values));
+            alert('Current State is: ' + JSON.stringify(values));
+            //event.preventDefault();
         }
 
 
@@ -104,20 +60,21 @@ class CommentForm extends Component{
 
 
             <Row className="form-group">
-                                <Label htmlFor="author" md={12}>Your Name</Label>
+                                <Label htmlFor="Name" md={12}>Your Name</Label>
                                 <Col md={12}>
-                                    <Control.text model=".author" id="author" name="author" 
+                                    <Control.text model=".name" id="name" name="name"
                                         placeholder="Your Name"
                                         className="form-control"
                                         validators={{
-                                             minLength: minLength(3), maxLength: maxLength(15)
+                                            required, minLength: minLength(3), maxLength: maxLength(15)
                                         }}
                                          />
                                     <Errors
                                         className="text-danger"
-                                        model=".author"
+                                        model=".firstname"
                                         show="touched"
                                         messages={{
+                                            required: 'Required',
                                             minLength: 'Must be greater than 3 characters',
                                             maxLength: 'Must be 15 characters or less'
                                         }}
@@ -128,7 +85,7 @@ class CommentForm extends Component{
                            <Row className="form-group">
                                 <Label htmlFor="Comment" md={12}>Comment</Label>
                                 <Col md={12}>
-                                    <Control.textarea model=".comment" id="comment" name="comment" 
+                                    <Control.textarea model=".comment" id="comment" name="comment"
                                         rows="12"
                                         className="form-control" />
                                 </Col>
@@ -149,77 +106,7 @@ class CommentForm extends Component{
     );
   }
 
+
+
 }
-
-
-
-
-
-
-
-
-
-
-const Dishdetail = (props) =>{
-      
-      if (props.isLoading) {
-            return(
-                <div className="container">
-                    <div className="row">            
-                        <Loading />
-                    </div>
-                </div>
-            );
-        }
-
-
-      else if (props.errMess) {
-            return(
-                <div className="container">
-                    <div className="row">            
-                        <h4>{props.errMess}</h4>
-                    </div>
-                </div>
-            );
-        }  
-
-      else if(props.dish!=null){
-
-        return (
-          <div className="container">
-            <div className="row">
-            <div className="col-12">
-              <Breadcrumb>
-              <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
-              <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-              </Breadcrumb>
-            </div>
-            </div>
-            <div className="row">
-            <div className="col-sm-12 col-md-5 m-1">
-              <Dish dish={props.dish} />     
-              </div>
-
-              <div className="col-sm-12 col-md-5 m-1">
-              <RenderComments comments={props.comments}  
-              postComment={props.postComment}
-              dishID={props.dish.id}/>
-              {console.log(props.dish.id)}
-              </div>
-              </div>
-              </div>
-            
-        );
-      }
-      else{
-        return(
-        <div>
-        </div>
-
-        )
-      }
-    
-}
-
-
-export default Dishdetail;
+export default ModalExample;

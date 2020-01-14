@@ -1,4 +1,9 @@
+
+
+
 git clone HotelWebsite_React
+
+
 To start server:      Open another terminal
                       
                       
